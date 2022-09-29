@@ -39,6 +39,14 @@ class filter_loom extends moodle_text_filter {
             return $text;
         }
 
+        // Remove ignored text from string.
+        // It will be put back after text has been filtered.
+        $filterignoretagsopen  = array('<a\s[^>]+?>', '<span[^>]+?class="nolink"[^>]*?>');
+        $filterignoretagsclose = array('</a>', '</span>');
+        $ignoretags = [];
+        filter_save_ignore_tags($text,$filterignoretagsopen,$filterignoretagsclose,$ignoretags);
+
+        // Callback used by replace function below.
         $callback = function($matches) {
             $match = $matches[0];
             if (stripos($match, "share") > 0) {
@@ -59,7 +67,16 @@ class filter_loom extends moodle_text_filter {
                     '" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>';
         };
 
+        // Filter the text.
         $pattern = "/(?:https:\/\/)?(?:www\.)?loom\.com\/(?:share|embed)\/\w+/";
-        return preg_replace_callback($pattern, $callback, $text);
+        $text =  preg_replace_callback($pattern, $callback, $text);
+
+        // Put back ignored text.
+        if (!empty($ignoretags)) {
+            $ignoretags = array_reverse($ignoretags); /// Reversed so "progressive" str_replace() will solve some nesting problems.
+            $text = str_replace(array_keys($ignoretags),$ignoretags,$text);
+        }
+
+        return $text;
     }
 }
