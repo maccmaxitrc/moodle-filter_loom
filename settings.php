@@ -29,14 +29,14 @@ if ($ADMIN->fulltree) {
     // Height of the embedded video player.
     $name = new lang_string('height', 'filter_loom');
     $desc = new lang_string('height_desc', 'filter_loom');
-    $default = 300;
+    $default = 360;
     $setting = new admin_setting_configtext('filter_loom/height', $name, $desc, $default, PARAM_INT, 8);
     $settings->add($setting);
 
     // Width of the embedded video player.
     $name = new lang_string('width', 'filter_loom');
     $desc = new lang_string('width_desc', 'filter_loom');
-    $default = 400;
+    $default = 640;
     $setting = new admin_setting_configtext('filter_loom/width', $name, $desc, $default, PARAM_INT, 8);
     $settings->add($setting);
 

@@ -61,10 +61,12 @@ class filter_loom extends moodle_text_filter {
             $hideShare = get_config('filter_loom', 'hideshare') ? 'hide_share=true&' : '';
             $hideTitle = get_config('filter_loom', 'hidetitle') ? 'hide_title=true&' : '';
             $hideEmbedTopBar = get_config('filter_loom', 'hideembedtopbar') ? 'hideEmbedTopBar=true&' : '';
-            return "<iframe src=\"{$match}" . "?" . $hideOwner . $hideShare . $hideTitle . $hideEmbedTopBar .
-                    '" frameborder="0" width="' .
-                    $width . '" height="' . $height .
-                    '" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>';
+            return "<span class=\"mediaplugin mediaplugin_loom\">
+                        <iframe src=\"{$match}" . "?" . $hideOwner . $hideShare . $hideTitle . $hideEmbedTopBar .
+                        '" frameborder="0" width="' .
+                        $width . '" height="' . $height .
+                        '" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+                    </span>';
         };
 
         // Filter the text.
